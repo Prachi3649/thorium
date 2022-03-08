@@ -30,12 +30,12 @@ const loginUser = async function (req, res) {
   // The same secret will be used to decode tokens
   let token = jwt.sign(
     {
-      userId: user._id.toString(),
-      batch: "thorium",
-      organisation: "FUnctionUp",
-    },
-    "functionup-thorium"
-  );
+      userId: user._id.toString()},"prachi");
+      //batch: "thorium",
+      //organisation: "FUnctionUp",
+    //},
+    //"functionup-thorium"
+  //);
   res.setHeader("x-auth-token", token);
   res.send({ status: true, data: token });
 };
@@ -54,7 +54,7 @@ const getUserData = async function (req, res) {
   // Input 1 is the token to be decoded
   // Input 2 is the same secret with which the token was generated
   // Check the value of the decoded token yourself
-  let decodedToken = jwt.verify(token, "functionup-thorium");
+  let decodedToken = jwt.verify(token, "prachi");
   if (!decodedToken)
     return res.send({ status: false, msg: "token is invalid" });
 
@@ -79,12 +79,27 @@ const updateUser = async function (req, res) {
     return res.send("No such user exists");
   }
 
-  let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
+  //let userData = req.body;
+  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, {password: 12345678}, {new:true});
   res.send({ status: updatedUser, data: updatedUser });
+  
 };
+
+const deleteUserData=async function(rq,res){
+    let userId=req.params.userId;
+    let user=await userModel.findById(userId);
+
+    if(!user){
+        return res.send("user must be deleted");
+    }
+
+    let deleteUserData=await userModel.findByIdAndUpdate({_id:userId},{$set:{isDeleted:true}},{new:true});
+    res.send({status:deleteUserData, data:deleteUserData})
+    
+}
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
+module.exports.deleteUserData = deleteUserData;
