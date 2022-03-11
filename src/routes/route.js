@@ -11,14 +11,24 @@ router.get("/test-me", function (req, res) {
 
 
 
+//book 
 
 router.post("/createBook", BookController.createBook  )
 
+router.get("/getBooksData", BookController.getBooksData  )
+
+router.put("/updateBooks", BookController.updateBooks  )
+
+router.delete("/deleteBooks", BookController.deleteBooks  )
+
+router.get("/totalSalesPerAuthor", BookController.totalSalesPerAuthor  )
 
 
 
-// router.post("/createUser", UserController.createUser  )
-// router.get("/getUsersData", UserController.getUsersData)
+
+
+ router.post("/createUser", UserController.createUser  )
+ router.get("/getUsersData", UserController.getUsersData)
 
 
 // const mid1= function ( req, res, next) {
