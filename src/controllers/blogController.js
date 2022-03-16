@@ -112,8 +112,10 @@ const deleting = async function (req, res) {
         }
 
     }
-    catch (err) {}
+    catch (err) {
+    console.log(err)
     res.status(500).send({ status: false, message: err.message }) 
+    }
 }
 
 const deletedBlogs = async function (req, res) {

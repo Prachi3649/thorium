@@ -19,12 +19,13 @@ const createAuthor = async function (req, res) {
 //login author(phase 2)
 
 const loginAuthor = async function (req, res) {
+  try{
     let userName = req.body.email;
     let password = req.body.password;
   
     let user = await authorModel.findOne({ email:userName, password: password });
     if (!user)
-      return res.send({
+      res.status(400).send({
         status: false,
         msg: "username or the password is not corerct",
       });
@@ -35,7 +36,13 @@ const loginAuthor = async function (req, res) {
       "Prachi11-thorium"
     );
     res.setHeader("x-api-key", token);
-    res.send({ status: true, data: token });
+    res.status(200).send({ status: true, data: token });
+  }
+  catch (err) {
+    console.log(err)
+    res.status(500).send({ status: "failed", message: err.message })
+}
+  
 };
 // Once the login is successful, create the jwt token with sign function
 // Sign function has 2 inputs:
